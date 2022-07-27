@@ -1,7 +1,12 @@
-import express from 'express';
+import { Express, Request, Response } from 'express';
 import { ocrController } from './controllers/ocr';
 
-const router = express.Router();
-router.post('/ocr', ocrController);
+// export const router = express.Router();
 
-export { router };
+const routes = (app: Express) => {
+  app.get('/health', (req: Request, res: Response) => res.sendStatus(200));
+
+  app.post('/api/ocr', ocrController);
+};
+
+export default routes;
