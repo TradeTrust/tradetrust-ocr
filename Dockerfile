@@ -6,6 +6,8 @@ WORKDIR /usr/src/app
 COPY package.json /usr/src/app/
 RUN npm install
 
+RUN apt install tesseract-ocr
+
 COPY dist/ /usr/src/app/
 
 RUN chmod -R +r /usr/src/app
