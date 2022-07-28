@@ -61,3 +61,16 @@ $ npm run dev
 
 # Well done, project is started!
 ```
+
+### Deployment
+
+```bash
+# Using docker-compose
+$ docker-compose up -d --build
+```
+
+API can be accessed on `localhost:3000`
+
+### More information
+
+Please see the [wiki](https://github.com/TradeTrust/tradetrust-ocr/wiki)
