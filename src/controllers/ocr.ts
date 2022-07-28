@@ -13,13 +13,15 @@ export const ocrController = async (req: Request<OcrRequest>, res: Response) => 
   const inputBuffer = req.body.pdf;
 
   if (!inputBuffer) {
-    res.status(400).send('No input provided');
-    return;
+    return res.status(400).json({
+      error: 'No input provided',
+    });
   }
 
   if (!req.is('application/json')) {
-    res.status(400).send('Invalid content type');
-    return;
+    return res.status(400).json({
+      error: 'Bad request',
+    });
   }
 
   const pdf:Buffer = Buffer.from(inputBuffer, 'base64');
