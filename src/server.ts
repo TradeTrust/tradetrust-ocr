@@ -1,5 +1,6 @@
 import express, { NextFunction, ErrorRequestHandler } from 'express';
 import routes from './routes';
+import logger from './utils/logger';
 
 const app = express();
 
@@ -22,6 +23,6 @@ app.use(<ErrorRequestHandler>function (err, req, res, next: NextFunction) {
 });
 
 app.listen(3000, () => {
-  console.log('Server is running on port 3000');
+  logger.info('Server is running on port 3000');
   routes(app);
 });
