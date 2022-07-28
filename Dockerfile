@@ -1,5 +1,7 @@
 FROM node:18-buster-slim
 
+RUN apt-get update && apt-get install -y tesseract-ocr graphicsmagick imagemagick
+
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 

@@ -5,7 +5,6 @@ import { ocrController } from './controllers/ocr';
 
 const routes = (app: Express) => {
   app.get('/health', (req: Request, res: Response) => res.sendStatus(200));
-
   app.post('/api/ocr', ocrController);
 };
 
