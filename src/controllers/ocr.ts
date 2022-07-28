@@ -14,7 +14,7 @@ export const ocrController = async (req: Request<OcrRequest>, res: Response) => 
     return;
   }
 
-  if (!req.is('application/pdf')) {
+  if (!req.is('application/json')) {
     res.status(400).send('Invalid content type');
     return;
   }
