@@ -12,11 +12,11 @@
     "node-tesseract-ocr": "2.2.1",
     "pino": "^8.3.1",
     "pino-pretty": "^8.1.0",
-    "pdf2pic":"^2.1.4"
+    "pdf2pic": "^2.1.4"
   },
   "scripts": {
     "start": "ts-node src/server.ts",
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "tsc"
+    "build": "tsc -p ."
   }
 }
