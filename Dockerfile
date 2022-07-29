@@ -16,7 +16,7 @@ RUN apt install tesseract-ocr
 
 RUN npm run build
 
-COPY dist/ /usr/src/
+# COPY dist/ /usr/src/
 
 RUN chmod -R +r /usr/src/
 

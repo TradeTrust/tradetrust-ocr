@@ -1,10 +1,17 @@
 import express, { NextFunction, ErrorRequestHandler } from 'express';
 import routes from './routes';
 import logger from './utils/logger';
+import cors from 'cors';
 
 const app = express();
 
 app.use(express.json({ limit: '50mb' }));
+
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+  })
+);
 
 app.use(<ErrorRequestHandler>function (err, req, res, next: NextFunction) {
   if (err instanceof TypeError) {
@@ -22,7 +29,7 @@ app.use(<ErrorRequestHandler>function (err, req, res, next: NextFunction) {
   next(err);
 });
 
-app.listen(3000, () => {
+app.listen(6969, () => {
   logger.info('Server is running on port 3000');
   routes(app);
 });
