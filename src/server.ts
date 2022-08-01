@@ -29,7 +29,7 @@ app.use(<ErrorRequestHandler>function (err, req, res, next: NextFunction) {
   next(err);
 });
 
-app.listen(6969, () => {
+app.listen(3000, () => {
   logger.info('Server is running on port 3000');
   routes(app);
 });
