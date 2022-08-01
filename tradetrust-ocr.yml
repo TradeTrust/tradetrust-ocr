@@ -1,0 +1,61 @@
+openapi: "3.0.0"
+info:
+  version: 0.1.0
+  title: Tradetrust OCR API
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:3000/
+paths:
+  /health:
+    get:
+      summary: Check API health
+      tags:
+        - health
+      responses:
+        200:
+          description: Successful health check
+  /api/ocr:
+    post:
+      summary: Perform OCR on a Base64 encoded PDF file
+      tags:
+        - ocr
+      consumes:
+        - application/json
+      produces:
+        - application/json
+        - text/plain
+      parameters:
+        - name: pdf
+          in: pdf
+          required: true
+          schema:
+            type: object
+            properties:
+              file:
+                type: string
+                format: base64
+      responses:
+        200:
+          description: Successful OCR'd text
+          content:
+            text/plain:
+              schema:
+                type: string
+        400:
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Error:
+      required:
+        - error
+      properties:
+        error:
+          type: string
+          description: Error message
+              
