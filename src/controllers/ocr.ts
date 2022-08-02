@@ -1,28 +1,26 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { fromBuffer } from 'pdf2pic';
 import { ToBase64Response } from 'pdf2pic/dist/types/toBase64Response';
+import { Schema, validationResult } from 'express-validator';
 import tesseract from 'node-tesseract-ocr';
 
-type OcrRequest = Request & {
-  body: {
-    pdf: string;
-  };
-};
+export const ocrSchema: Schema = {
+  pdf: {
+    in: ['body'],
+    isBase64: true,
+    exists: true,
+    errorMessage: 'Invalid base64 string',
+  }
+}
 
-export const ocrController = async (req: Request<OcrRequest>, res: Response) => {
+export const ocrController = async (req: Request, res: Response, next: NextFunction) => {
+
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return next(new TypeError(errors.array()[0].msg))
+  }
+
   const inputBuffer = req.body.pdf;
-
-  if (!inputBuffer) {
-    return res.status(400).json({
-      error: 'No input provided',
-    });
-  }
-
-  if (!req.is('application/json')) {
-    return res.status(400).json({
-      error: 'Bad request',
-    });
-  }
 
   const pdf:Buffer = Buffer.from(inputBuffer, 'base64');
 
@@ -35,14 +33,21 @@ export const ocrController = async (req: Request<OcrRequest>, res: Response) => 
     height: 600
   };
 
-  const result:ToBase64Response[] = await fromBuffer(pdf, options).bulk(-1, true);
+  let result:ToBase64Response[]
+  try {
+    result = await fromBuffer(pdf, options).bulk(-1, true);
+  }
+  catch (e) { return next(e) };
 
   let resp: { [text: string]: string[] } = { text: [] };
 
   for (const page of result) {
-    const imgBuffer:Buffer = Buffer.from(page.base64, 'base64');
-    const text:string = await tesseract.recognize(imgBuffer, { lang: "eng", oem: 1, psm: 3 });
-    resp.text.push(text);
+    try {
+      const imgBuffer:Buffer = Buffer.from(page.base64, 'base64');
+      const text:string = await tesseract.recognize(imgBuffer, { lang: "eng", oem: 1, psm: 3 });
+      resp.text.push(text);
+    }
+    catch (e) { return next(e) };
   }
 
   res.status(200).send(resp);

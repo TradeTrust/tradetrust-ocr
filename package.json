@@ -9,6 +9,7 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
+    "express-validator": "^6.12.1",
     "cors": "^2.8.5",
     "express": "^4.17.13",
     "node-tesseract-ocr": "2.2.1",
