@@ -7,7 +7,12 @@ const app = express();
 
 app.use(express.json({ limit: '50mb' }));
 
-app.use(cors())
+app.use(cors({
+  // unsafely allow any origin for now
+  origin: (origin, callback) => {
+    return callback(null, true);
+  }
+}))
 
 routes(app);
 
