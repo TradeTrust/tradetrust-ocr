@@ -1,7 +1,12 @@
-version: '3'
+version: '3.5'
 services:
-  api:
+  butter:
+    container_name: butter
     restart: always
     build: .
     ports:
-      - '2053:3000'
+      - '3000:3000'
+
+networks:
+  mynetwork:
+    name: mynetwork
