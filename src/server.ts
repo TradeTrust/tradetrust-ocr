@@ -7,12 +7,15 @@ const app = express();
 
 app.use(express.json({ limit: '50mb' }));
 
-app.use(cors({
-  // unsafely allow any origin for now
-  origin: (origin, callback) => {
-    return callback(null, true);
-  }
-}))
+app.use(
+  cors()
+  // {
+  // // unsafely allow any origin for now
+  // origin: (origin, callback) => {
+  //   return callback(null, true);
+  // }
+  // }
+);
 
 routes(app);
 
@@ -26,8 +29,10 @@ app.use((err: any, req: Request, res: Response, next: Function) => {
   res.status(err.status ?? 500);
   return res.json({
     success: false,
-    error: err.message || 'Internal error occured'
+    error: err.message || 'Internal error occured',
   });
 });
 
-app.listen(3000, () => { logger.info('Server is running on port 3000'); });
+app.listen(3000, () => {
+  logger.info('Server is running on port 3000');
+});
